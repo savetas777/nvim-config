@@ -24,6 +24,7 @@
       modules = with config.flake.modules.nixvim; [
         lineNumbers
         oil
+        which-key
       ];
     in
     {
