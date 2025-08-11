@@ -1,6 +1,7 @@
 {
   perSystem =
     {
+      config,
       pkgs,
       self',
       ...
@@ -14,17 +15,17 @@
           default = self'.devShells.stable;
 
           stable = pkgs.mkShell {
-            # shellHook = config.pre-commit.installationScript;
+            shellHook = config.pre-commit.installationScript;
 
             strictDeps = true;
-            nativeBuildInputs = packages;
+            nativeBuildInputs = packages ++ [ self'.packages.stable ];
           };
 
           nightly = pkgs.mkShell {
-            # shellHook = config.pre-commit.installationScript;
+            shellHook = config.pre-commit.installationScript;
 
             strictDeps = true;
-            nativeBuildInputs = packages;
+            nativeBuildInputs = packages ++ [ self'.packages.nightly ];
           };
         };
     };

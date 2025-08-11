@@ -5,6 +5,14 @@
 
   outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./modules);
 
+  nixConfig = {
+    extra-experimental-features = [ "pipe-operators" ];
+    extra-substituters = [ "https://nix-community.cachix.org" ];
+    extra-trusted-public-keys = [
+      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+    ];
+  };
+
   inputs = {
     flake-compat = {
       flake = false;
@@ -44,10 +52,48 @@
       repo = "import-tree";
       type = "github";
     };
+    neovim-nightly-overlay = {
+      inputs = {
+        flake-compat = {
+          follows = "flake-compat";
+        };
+        flake-parts = {
+          follows = "flake-parts";
+        };
+        git-hooks = {
+          follows = "git-hooks";
+        };
+        nixpkgs = {
+          follows = "nixpkgs";
+        };
+        treefmt-nix = {
+          follows = "treefmt-nix";
+        };
+      };
+      owner = "nix-community";
+      repo = "neovim-nightly-overlay";
+      type = "github";
+    };
     nixpkgs = {
       owner = "nixos";
       ref = "nixpkgs-unstable";
       repo = "nixpkgs";
+      type = "github";
+    };
+    nixvim = {
+      inputs = {
+        flake-parts = {
+          follows = "flake-parts";
+        };
+        nixpkgs = {
+          follows = "nixpkgs";
+        };
+        systems = {
+          follows = "systems";
+        };
+      };
+      owner = "nix-community";
+      repo = "nixvim";
       type = "github";
     };
     systems = {
